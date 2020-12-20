@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ekho-lib-jvm-0.1">
+    <output-path>D:\work\Ekho\ekho-lib\build\libs</output-path>
+    <root id="archive" name="ekho-lib-jvm-0.1.jar">
+      <element id="module-output" name="Ekho.ekho-lib.jvmMain" />
+    </root>
+  </artifact>
+</component>

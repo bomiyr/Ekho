@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="1.8" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="Ekho.ekho-lib.commonMain" target="1.6" />
+      <module name="Ekho.ekho-lib.commonTest" target="1.6" />
+      <module name="Ekho.ekho-lib.jvmMain" target="1.6" />
+      <module name="Ekho.ekho-lib.jvmTest" target="1.6" />
+    </bytecodeTargetLevel>
   </component>
 </project>
