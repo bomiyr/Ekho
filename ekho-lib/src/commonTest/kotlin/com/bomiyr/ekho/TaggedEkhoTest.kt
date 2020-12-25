@@ -9,14 +9,14 @@ const val testMessage = "Ekho log message to test"
 class TaggedEkhoTest {
     @Test
     fun vMessage() {
-        testLogMessage(Ekho.VERBOSE, testMessage) { logger ->
+        testLogMessage(EkhoLevel.VERBOSE, testMessage) { logger ->
             logger.v(testMessage)
         }
     }
 
     @Test
     fun vLazyMessage() {
-        testLogLazyMessage(Ekho.VERBOSE, testMessage) { logger ->
+        testLogLazyMessage(EkhoLevel.VERBOSE, testMessage) { logger ->
             logger.v { testMessage }
         }
     }
@@ -24,7 +24,7 @@ class TaggedEkhoTest {
     @Test
     fun vError() {
         val testError = Throwable()
-        testLogError(Ekho.VERBOSE, testError) { logger ->
+        testLogError(EkhoLevel.VERBOSE, testError) { logger ->
             logger.v(testError)
         }
     }
@@ -32,7 +32,7 @@ class TaggedEkhoTest {
     @Test
     fun vMessageAndError() {
         val testError = Throwable()
-        testLogMessageAndError(Ekho.VERBOSE, testMessage, testError) { logger ->
+        testLogMessageAndError(EkhoLevel.VERBOSE, testMessage, testError) { logger ->
             logger.v(testError, testMessage)
         }
     }
@@ -40,21 +40,21 @@ class TaggedEkhoTest {
     @Test
     fun vLazyMessageAndError() {
         val testError = Throwable()
-        testLogLazyMessageAndError(Ekho.VERBOSE, testMessage, testError) { logger ->
+        testLogLazyMessageAndError(EkhoLevel.VERBOSE, testMessage, testError) { logger ->
             logger.v(testError) { testMessage }
         }
     }
 
     @Test
     fun dMessage() {
-        testLogMessage(Ekho.DEBUG, testMessage) { logger ->
+        testLogMessage(EkhoLevel.DEBUG, testMessage) { logger ->
             logger.d(testMessage)
         }
     }
 
     @Test
     fun dLazyMessage() {
-        testLogLazyMessage(Ekho.DEBUG, testMessage) { logger ->
+        testLogLazyMessage(EkhoLevel.DEBUG, testMessage) { logger ->
             logger.d { testMessage }
         }
     }
@@ -62,7 +62,7 @@ class TaggedEkhoTest {
     @Test
     fun dError() {
         val testError = Throwable()
-        testLogError(Ekho.DEBUG, testError) { logger ->
+        testLogError(EkhoLevel.DEBUG, testError) { logger ->
             logger.d(testError)
         }
     }
@@ -70,7 +70,7 @@ class TaggedEkhoTest {
     @Test
     fun dMessageAndError() {
         val testError = Throwable()
-        testLogMessageAndError(Ekho.DEBUG, testMessage, testError) { logger ->
+        testLogMessageAndError(EkhoLevel.DEBUG, testMessage, testError) { logger ->
             logger.d(testError, testMessage)
         }
     }
@@ -78,21 +78,21 @@ class TaggedEkhoTest {
     @Test
     fun dLazyMessageAndError() {
         val testError = Throwable()
-        testLogLazyMessageAndError(Ekho.DEBUG, testMessage, testError) { logger ->
+        testLogLazyMessageAndError(EkhoLevel.DEBUG, testMessage, testError) { logger ->
             logger.d(testError) { testMessage }
         }
     }
 
     @Test
     fun iMessage() {
-        testLogMessage(Ekho.INFO, testMessage) { logger ->
+        testLogMessage(EkhoLevel.INFO, testMessage) { logger ->
             logger.i(testMessage)
         }
     }
 
     @Test
     fun iLazyMessage() {
-        testLogLazyMessage(Ekho.INFO, testMessage) { logger ->
+        testLogLazyMessage(EkhoLevel.INFO, testMessage) { logger ->
             logger.i { testMessage }
         }
     }
@@ -100,7 +100,7 @@ class TaggedEkhoTest {
     @Test
     fun iError() {
         val testError = Throwable()
-        testLogError(Ekho.INFO, testError) { logger ->
+        testLogError(EkhoLevel.INFO, testError) { logger ->
             logger.i(testError)
         }
     }
@@ -108,7 +108,7 @@ class TaggedEkhoTest {
     @Test
     fun iMessageAndError() {
         val testError = Throwable()
-        testLogMessageAndError(Ekho.INFO, testMessage, testError) { logger ->
+        testLogMessageAndError(EkhoLevel.INFO, testMessage, testError) { logger ->
             logger.i(testError, testMessage)
         }
     }
@@ -116,21 +116,21 @@ class TaggedEkhoTest {
     @Test
     fun iLazyMessageAndError() {
         val testError = Throwable()
-        testLogLazyMessageAndError(Ekho.INFO, testMessage, testError) { logger ->
+        testLogLazyMessageAndError(EkhoLevel.INFO, testMessage, testError) { logger ->
             logger.i(testError) { testMessage }
         }
     }
 
     @Test
     fun wMessage() {
-        testLogMessage(Ekho.WARN, testMessage) { logger ->
+        testLogMessage(EkhoLevel.WARN, testMessage) { logger ->
             logger.w(testMessage)
         }
     }
 
     @Test
     fun wLazyMessage() {
-        testLogLazyMessage(Ekho.WARN, testMessage) { logger ->
+        testLogLazyMessage(EkhoLevel.WARN, testMessage) { logger ->
             logger.w { testMessage }
         }
     }
@@ -138,7 +138,7 @@ class TaggedEkhoTest {
     @Test
     fun wError() {
         val testError = Throwable()
-        testLogError(Ekho.WARN, testError) { logger ->
+        testLogError(EkhoLevel.WARN, testError) { logger ->
             logger.w(testError)
         }
     }
@@ -146,7 +146,7 @@ class TaggedEkhoTest {
     @Test
     fun wMessageAndError() {
         val testError = Throwable()
-        testLogMessageAndError(Ekho.WARN, testMessage, testError) { logger ->
+        testLogMessageAndError(EkhoLevel.WARN, testMessage, testError) { logger ->
             logger.w(testError, testMessage)
         }
     }
@@ -154,21 +154,21 @@ class TaggedEkhoTest {
     @Test
     fun wLazyMessageAndError() {
         val testError = Throwable()
-        testLogLazyMessageAndError(Ekho.WARN, testMessage, testError) { logger ->
+        testLogLazyMessageAndError(EkhoLevel.WARN, testMessage, testError) { logger ->
             logger.w(testError) { testMessage }
         }
     }
 
     @Test
     fun eMessage() {
-        testLogMessage(Ekho.ERROR, testMessage) { logger ->
+        testLogMessage(EkhoLevel.ERROR, testMessage) { logger ->
             logger.e(testMessage)
         }
     }
 
     @Test
     fun eLazyMessage() {
-        testLogLazyMessage(Ekho.ERROR, testMessage) { logger ->
+        testLogLazyMessage(EkhoLevel.ERROR, testMessage) { logger ->
             logger.e { testMessage }
         }
     }
@@ -176,7 +176,7 @@ class TaggedEkhoTest {
     @Test
     fun eError() {
         val testError = Throwable()
-        testLogError(Ekho.ERROR, testError) { logger ->
+        testLogError(EkhoLevel.ERROR, testError) { logger ->
             logger.e(testError)
         }
     }
@@ -184,7 +184,7 @@ class TaggedEkhoTest {
     @Test
     fun eMessageAndError() {
         val testError = Throwable()
-        testLogMessageAndError(Ekho.ERROR, testMessage, testError) { logger ->
+        testLogMessageAndError(EkhoLevel.ERROR, testMessage, testError) { logger ->
             logger.e(testError, testMessage)
         }
     }
@@ -192,21 +192,21 @@ class TaggedEkhoTest {
     @Test
     fun eLazyMessageAndError() {
         val testError = Throwable()
-        testLogLazyMessageAndError(Ekho.ERROR, testMessage, testError) { logger ->
+        testLogLazyMessageAndError(EkhoLevel.ERROR, testMessage, testError) { logger ->
             logger.e(testError) { testMessage }
         }
     }
 
     @Test
     fun wtfMessage() {
-        testLogMessage(Ekho.ASSERT, testMessage) { logger ->
+        testLogMessage(EkhoLevel.ASSERT, testMessage) { logger ->
             logger.wtf(testMessage)
         }
     }
 
     @Test
     fun wtfLazyMessage() {
-        testLogLazyMessage(Ekho.ASSERT, testMessage) { logger ->
+        testLogLazyMessage(EkhoLevel.ASSERT, testMessage) { logger ->
             logger.wtf { testMessage }
         }
     }
@@ -214,7 +214,7 @@ class TaggedEkhoTest {
     @Test
     fun wtfError() {
         val testError = Throwable()
-        testLogError(Ekho.ASSERT, testError) { logger ->
+        testLogError(EkhoLevel.ASSERT, testError) { logger ->
             logger.wtf(testError)
         }
     }
@@ -222,7 +222,7 @@ class TaggedEkhoTest {
     @Test
     fun wtfMessageAndError() {
         val testError = Throwable()
-        testLogMessageAndError(Ekho.ASSERT, testMessage, testError) { logger ->
+        testLogMessageAndError(EkhoLevel.ASSERT, testMessage, testError) { logger ->
             logger.wtf(testError, testMessage)
         }
     }
@@ -230,7 +230,7 @@ class TaggedEkhoTest {
     @Test
     fun wtfLazyMessageAndError() {
         val testError = Throwable()
-        testLogLazyMessageAndError(Ekho.ASSERT, testMessage, testError) { logger ->
+        testLogLazyMessageAndError(EkhoLevel.ASSERT, testMessage, testError) { logger ->
             logger.wtf(testError) { testMessage }
         }
     }

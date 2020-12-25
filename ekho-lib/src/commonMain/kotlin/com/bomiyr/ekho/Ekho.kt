@@ -1,8 +1,15 @@
 package com.bomiyr.ekho
 
-public typealias EkhoLevel = Int
+public enum class EkhoLevel(public val printed: String) {
+    VERBOSE("V"),
+    DEBUG("D"),
+    INFO("I"),
+    WARN("W"),
+    ERROR("E"),
+    ASSERT("A");
+}
 
-public class Ekho : IEkho, EkhoLog {
+public open class Ekho : IEkho, EkhoLog {
     private val reflectionsHolder: IEkhoReflectionsHolder
 
     @Suppress("unused")
@@ -45,15 +52,6 @@ public class Ekho : IEkho, EkhoLog {
         return TaggedEkhoLog(this, tag)
     }
 
-    public companion object {
-        public const val VERBOSE: EkhoLevel = 2
-        public const val DEBUG: EkhoLevel = 3
-        public const val INFO: EkhoLevel = 4
-        public const val WARN: EkhoLevel = 5
-        public const val ERROR: EkhoLevel = 6
-        public const val ASSERT: EkhoLevel = 7
-    }
-
     override fun log(
         level: EkhoLevel,
         tag: String?,
@@ -73,122 +71,122 @@ public class Ekho : IEkho, EkhoLog {
     }
 
     override fun v(message: String) {
-        log(VERBOSE, null, error = null, message, lazyMessage = null)
+        log(EkhoLevel.VERBOSE, null, error = null, message, lazyMessage = null)
     }
 
     override fun v(lazyMessage: () -> String) {
-        log(VERBOSE, tag = null, error = null, message = null, lazyMessage)
+        log(EkhoLevel.VERBOSE, tag = null, error = null, message = null, lazyMessage)
     }
 
     override fun v(error: Throwable) {
-        log(VERBOSE, tag = null, error, message = null, lazyMessage = null)
+        log(EkhoLevel.VERBOSE, tag = null, error, message = null, lazyMessage = null)
     }
 
     override fun v(error: Throwable, message: String) {
-        log(VERBOSE, tag = null, error, message, lazyMessage = null)
+        log(EkhoLevel.VERBOSE, tag = null, error, message, lazyMessage = null)
     }
 
     override fun v(error: Throwable, lazyMessage: () -> String) {
-        log(VERBOSE, tag = null, error, message = null, lazyMessage)
+        log(EkhoLevel.VERBOSE, tag = null, error, message = null, lazyMessage)
     }
 
     override fun d(message: String) {
-        log(DEBUG, tag = null, error = null, message, lazyMessage = null)
+        log(EkhoLevel.DEBUG, tag = null, error = null, message, lazyMessage = null)
     }
 
     override fun d(lazyMessage: () -> String) {
-        log(DEBUG, tag = null, error = null, message = null, lazyMessage)
+        log(EkhoLevel.DEBUG, tag = null, error = null, message = null, lazyMessage)
     }
 
     override fun d(error: Throwable) {
-        log(DEBUG, tag = null, error, message = null, lazyMessage = null)
+        log(EkhoLevel.DEBUG, tag = null, error, message = null, lazyMessage = null)
     }
 
     override fun d(error: Throwable, message: String) {
-        log(DEBUG, tag = null, error, message, lazyMessage = null)
+        log(EkhoLevel.DEBUG, tag = null, error, message, lazyMessage = null)
     }
 
     override fun d(error: Throwable, lazyMessage: () -> String) {
-        log(DEBUG, tag = null, error, message = null, lazyMessage)
+        log(EkhoLevel.DEBUG, tag = null, error, message = null, lazyMessage)
     }
 
     override fun i(message: String) {
-        log(INFO, tag = null, error = null, message, lazyMessage = null)
+        log(EkhoLevel.INFO, tag = null, error = null, message, lazyMessage = null)
     }
 
     override fun i(lazyMessage: () -> String) {
-        log(INFO, tag = null, error = null, message = null, lazyMessage)
+        log(EkhoLevel.INFO, tag = null, error = null, message = null, lazyMessage)
     }
 
     override fun i(error: Throwable) {
-        log(INFO, tag = null, error, message = null, lazyMessage = null)
+        log(EkhoLevel.INFO, tag = null, error, message = null, lazyMessage = null)
     }
 
     override fun i(error: Throwable, message: String) {
-        log(INFO, tag = null, error, message, lazyMessage = null)
+        log(EkhoLevel.INFO, tag = null, error, message, lazyMessage = null)
     }
 
     override fun i(error: Throwable, lazyMessage: () -> String) {
-        log(INFO, tag = null, error, message = null, lazyMessage)
+        log(EkhoLevel.INFO, tag = null, error, message = null, lazyMessage)
     }
 
     override fun w(message: String) {
-        log(WARN, tag = null, error = null, message, lazyMessage = null)
+        log(EkhoLevel.WARN, tag = null, error = null, message, lazyMessage = null)
     }
 
     override fun w(lazyMessage: () -> String) {
-        log(WARN, tag = null, error = null, message = null, lazyMessage)
+        log(EkhoLevel.WARN, tag = null, error = null, message = null, lazyMessage)
     }
 
     override fun w(error: Throwable) {
-        log(WARN, tag = null, error, message = null, lazyMessage = null)
+        log(EkhoLevel.WARN, tag = null, error, message = null, lazyMessage = null)
     }
 
     override fun w(error: Throwable, message: String) {
-        log(WARN, tag = null, error, message, lazyMessage = null)
+        log(EkhoLevel.WARN, tag = null, error, message, lazyMessage = null)
     }
 
     override fun w(error: Throwable, lazyMessage: () -> String) {
-        log(WARN, tag = null, error, message = null, lazyMessage)
+        log(EkhoLevel.WARN, tag = null, error, message = null, lazyMessage)
     }
 
     override fun e(message: String) {
-        log(ERROR, tag = null, error = null, message, lazyMessage = null)
+        log(EkhoLevel.ERROR, tag = null, error = null, message, lazyMessage = null)
     }
 
     override fun e(lazyMessage: () -> String) {
-        log(ERROR, tag = null, error = null, message = null, lazyMessage)
+        log(EkhoLevel.ERROR, tag = null, error = null, message = null, lazyMessage)
     }
 
     override fun e(error: Throwable) {
-        log(ERROR, tag = null, error, message = null, lazyMessage = null)
+        log(EkhoLevel.ERROR, tag = null, error, message = null, lazyMessage = null)
     }
 
     override fun e(error: Throwable, message: String) {
-        log(ERROR, tag = null, error, message, lazyMessage = null)
+        log(EkhoLevel.ERROR, tag = null, error, message, lazyMessage = null)
     }
 
     override fun e(error: Throwable, lazyMessage: () -> String) {
-        log(ERROR, tag = null, error, message = null, lazyMessage)
+        log(EkhoLevel.ERROR, tag = null, error, message = null, lazyMessage)
     }
 
     override fun wtf(message: String) {
-        log(ASSERT, tag = null, error = null, message, lazyMessage = null)
+        log(EkhoLevel.ASSERT, tag = null, error = null, message, lazyMessage = null)
     }
 
     override fun wtf(lazyMessage: () -> String) {
-        log(ASSERT, tag = null, error = null, message = null, lazyMessage)
+        log(EkhoLevel.ASSERT, tag = null, error = null, message = null, lazyMessage)
     }
 
     override fun wtf(error: Throwable) {
-        log(ASSERT, tag = null, error, message = null, lazyMessage = null)
+        log(EkhoLevel.ASSERT, tag = null, error, message = null, lazyMessage = null)
     }
 
     override fun wtf(error: Throwable, message: String) {
-        log(ASSERT, tag = null, error, message, lazyMessage = null)
+        log(EkhoLevel.ASSERT, tag = null, error, message, lazyMessage = null)
     }
 
     override fun wtf(error: Throwable, lazyMessage: () -> String) {
-        log(ASSERT, tag = null, error, message = null, lazyMessage)
+        log(EkhoLevel.ASSERT, tag = null, error, message = null, lazyMessage)
     }
 }

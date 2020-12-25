@@ -2,8 +2,7 @@ package com.bomiyr.ekho
 
 import android.os.Build
 import android.util.Log
-import java.io.PrintWriter
-import java.io.StringWriter
+import com.bomiyr.ekho.jvmmessage.JvmMessagePrepare
 
 public class AndroidLogReflection(
     override var filter: EkhoFilter = LogAll,
@@ -16,28 +15,18 @@ public class AndroidLogReflection(
     public var useDebugTags: Boolean = false
 ) : EkhoReflection {
 
+    private val skipClassesForDebugTag = listOf(
+        AndroidLogReflection::class.java.name,
+        Ekho::class.java.name,
+        EkhoReflectionsHolder::class.java.name
+    )
+
     override fun log(level: EkhoLevel, tag: String?, message: String?, t: Throwable?) {
-        prepareMessage(message, t)
+        JvmMessagePrepare.prepareMessage(message, t)
             ?.let { resultMessage ->
                 val resultTag = prepareTag(tag)
                 logFullMessage(level, resultTag, resultMessage)
             }
-    }
-
-    private fun prepareMessage(message: String?, error: Throwable?): String? {
-        return if (message != null) {
-            if (error != null) {
-                "$message\n${getStackTraceString(error)}"
-            } else {
-                message
-            }
-        } else {
-            if (error != null) {
-                getStackTraceString(error)
-            } else {
-                null
-            }
-        }
     }
 
     private fun prepareTag(tag: String?): String =
@@ -48,32 +37,12 @@ public class AndroidLogReflection(
                 tag.substring(0, MAX_TAG_LENGTH)
             }
         } else if (useDebugTags) {
-            prepareTag(getTagFromStackTrace())
+            prepareTag(JvmMessagePrepare.getTagFromStackTrace(skipClassesForDebugTag))
         } else {
             DEFAULT_TAG
         }
 
-    private fun getTagFromStackTrace(): String {
-        val skipForTag = listOf(
-            AndroidLogReflection::class.java.name,
-            Ekho::class.java.name,
-            EkhoReflectionsHolder::class.java.name
-        )
-        return Throwable()
-            .stackTrace
-            .first {
-                !skipForTag.contains(it.className)
-            }
-            .let {
-                createStackElementTag(it)
-            }
-    }
 
-    private fun createStackElementTag(element: StackTraceElement): String {
-        return element.className
-            .substringAfterLast('.')
-            .substringBefore("$")
-    }
 
     private fun logFullMessage(
         level: EkhoLevel,
@@ -97,22 +66,15 @@ public class AndroidLogReflection(
         message: String
     ) {
         when (level) {
-            Ekho.ASSERT -> Log.wtf(resultTag, message)
-            Ekho.DEBUG -> Log.d(resultTag, message)
-            Ekho.ERROR -> Log.e(resultTag, message)
-            Ekho.INFO -> Log.i(resultTag, message)
-            Ekho.VERBOSE -> Log.v(resultTag, message)
-            Ekho.WARN -> Log.w(resultTag, message)
+            EkhoLevel.ASSERT -> Log.wtf(resultTag, message)
+            EkhoLevel.DEBUG -> Log.d(resultTag, message)
+            EkhoLevel.ERROR -> Log.e(resultTag, message)
+            EkhoLevel.INFO -> Log.i(resultTag, message)
+            EkhoLevel.VERBOSE -> Log.v(resultTag, message)
+            EkhoLevel.WARN -> Log.w(resultTag, message)
         }
     }
 
-    private fun getStackTraceString(tr: Throwable): String {
-        val sw = StringWriter()
-        val pw = PrintWriter(sw)
-        tr.printStackTrace(pw)
-        pw.flush()
-        return sw.toString()
-    }
 
     public companion object {
         public const val DEFAULT_TAG: String = "Ekho"

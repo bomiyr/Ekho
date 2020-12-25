@@ -27,7 +27,11 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
             }
         }
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                implementation(project(mapOf("path" to ":jvmmessage")))
+            }
+        }
         val androidTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
@@ -35,7 +39,11 @@ kotlin {
                 implementation("org.robolectric:robolectric:4.4")
             }
         }
-        val jvmMain by getting
+        val jvmMain by getting {
+            dependencies {
+                implementation(project(mapOf("path" to ":jvmmessage")))
+            }
+        }
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
@@ -51,10 +59,14 @@ kotlin {
 android {
     compileSdkVersion(30)
     defaultConfig {
-        minSdkVersion(24)
+        minSdkVersion(16)
         targetSdkVersion(30)
     }
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    compileOptions {
+        sourceCompatibility(1.8)
+        targetCompatibility(1.8)
+    }
 }
 
 //val packForXcode by tasks.creating(Sync::class) {

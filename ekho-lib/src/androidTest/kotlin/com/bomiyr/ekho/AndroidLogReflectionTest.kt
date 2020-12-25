@@ -18,12 +18,12 @@ internal class AndroidLogReflectionTest {
     @Test
     fun correctLogLevels() {
         listOf(
-            Ekho.ERROR to Log.ERROR,
-            Ekho.ASSERT to Log.ASSERT,
-            Ekho.DEBUG to Log.DEBUG,
-            Ekho.INFO to Log.INFO,
-            Ekho.VERBOSE to Log.VERBOSE,
-            Ekho.WARN to Log.WARN
+            EkhoLevel.ERROR to Log.ERROR,
+            EkhoLevel.ASSERT to Log.ASSERT,
+            EkhoLevel.DEBUG to Log.DEBUG,
+            EkhoLevel.INFO to Log.INFO,
+            EkhoLevel.VERBOSE to Log.VERBOSE,
+            EkhoLevel.WARN to Log.WARN
         ).forEach { (level, expected) ->
             checkLogLevel(level, expected)
         }
@@ -44,7 +44,22 @@ internal class AndroidLogReflectionTest {
     fun generateDebugTag() {
         val logTarget = AndroidLogReflection(LogAll, useDebugTags = true)
         val message = UUID.randomUUID().toString()
-        logTarget.log(Ekho.ERROR, null, message, null)
+        logTarget.log(EkhoLevel.ERROR, null, message, null)
+        val logs = ShadowLog.getLogs()
+        val value = logs.firstOrNull { it.msg == message }
+
+        assertEquals("AndroidLogReflectionTest", value?.tag, "Tags are not the same")
+    }
+
+    @Config(sdk = [Build.VERSION_CODES.N])
+    @Test
+    fun generateDebugTagEkho() {
+        val ekho = Ekho()
+
+        val logTarget = AndroidLogReflection(LogAll, useDebugTags = true)
+        ekho.addReflection(logTarget)
+        val message = UUID.randomUUID().toString()
+        ekho.log(EkhoLevel.ERROR, null, null, message, null)
         val logs = ShadowLog.getLogs()
         val value = logs.firstOrNull { it.msg == message }
 
@@ -53,7 +68,7 @@ internal class AndroidLogReflectionTest {
 
     class MyInnerClass {
         fun log(logTarget: AndroidLogReflection, message: String) {
-            logTarget.log(Ekho.ERROR, null, message, null)
+            logTarget.log(EkhoLevel.ERROR, null, message, null)
         }
     }
 
@@ -76,7 +91,7 @@ internal class AndroidLogReflectionTest {
     fun doNotGenerateDebugTag() {
         val message = UUID.randomUUID().toString()
         val logTarget = AndroidLogReflection(LogAll)
-        logTarget.log(Ekho.ERROR, null, message, null)
+        logTarget.log(EkhoLevel.ERROR, null, message, null)
         val logs = ShadowLog.getLogs()
         val value = logs.firstOrNull { it.msg == message }
 
@@ -89,7 +104,7 @@ internal class AndroidLogReflectionTest {
         val tag = "my_tag"
         val message = UUID.randomUUID().toString()
         val logTarget = AndroidLogReflection(LogAll)
-        logTarget.log(Ekho.ERROR, tag, message, null)
+        logTarget.log(EkhoLevel.ERROR, tag, message, null)
         val logs = ShadowLog.getLogs()
         val value = logs.firstOrNull { it.msg == message }
 
@@ -103,7 +118,7 @@ internal class AndroidLogReflectionTest {
         val tagCut = tag.substring(0, AndroidLogReflection.MAX_TAG_LENGTH)
         val message = UUID.randomUUID().toString()
         val logTarget = AndroidLogReflection(LogAll)
-        logTarget.log(Ekho.ERROR, tag, message, null)
+        logTarget.log(EkhoLevel.ERROR, tag, message, null)
         val logs = ShadowLog.getLogs()
         val value = logs.firstOrNull { it.msg == message }
 
@@ -116,7 +131,7 @@ internal class AndroidLogReflectionTest {
         val tag = "My_long_tag_that_is_more_than_twenty_three_characters"
         val message = UUID.randomUUID().toString()
         val logTarget = AndroidLogReflection(LogAll)
-        logTarget.log(Ekho.ERROR, tag, message, null)
+        logTarget.log(EkhoLevel.ERROR, tag, message, null)
         val logs = ShadowLog.getLogs()
         val value = logs.firstOrNull { it.msg == message }
 
@@ -128,7 +143,7 @@ internal class AndroidLogReflectionTest {
     fun defaultTag() {
         val message = UUID.randomUUID().toString()
         val logTarget = AndroidLogReflection(LogAll)
-        logTarget.log(Ekho.ERROR, null, message, null)
+        logTarget.log(EkhoLevel.ERROR, null, message, null)
         val logs = ShadowLog.getLogs()
         val value = logs.firstOrNull { it.msg == message }
 
@@ -141,7 +156,7 @@ internal class AndroidLogReflectionTest {
         val tag = UUID.randomUUID().toString()
         val logTarget = AndroidLogReflection(LogAll)
         val message = "My test message"
-        logTarget.log(Ekho.ERROR, tag, message, null)
+        logTarget.log(EkhoLevel.ERROR, tag, message, null)
         val logs = ShadowLog.getLogs()
         val value = logs.firstOrNull { it.tag == tag }
 
@@ -159,7 +174,7 @@ internal class AndroidLogReflectionTest {
             repeat(2500) { append("e") }
             repeat(2500) { append("r") }
         }.toString()
-        logTarget.log(Ekho.ERROR, tag, message, null)
+        logTarget.log(EkhoLevel.ERROR, tag, message, null)
         val logs = ShadowLog.getLogs()
 
         val loggedMessages = logs.filter { it.tag == tag }.map { it.msg }
@@ -178,7 +193,7 @@ internal class AndroidLogReflectionTest {
     fun correctThrowable() {
         val tag = UUID.randomUUID().toString()
         val logTarget = AndroidLogReflection(LogAll)
-        logTarget.log(Ekho.ERROR, tag, null, NullPointerException())
+        logTarget.log(EkhoLevel.ERROR, tag, null, NullPointerException())
         val logs = ShadowLog.getLogs()
 
         val logItem = logs.firstOrNull { it.tag == tag }
@@ -195,7 +210,7 @@ internal class AndroidLogReflectionTest {
         val tag = UUID.randomUUID().toString()
         val logTarget = AndroidLogReflection(LogAll)
         val message = "My test message"
-        logTarget.log(Ekho.ERROR, tag, message, NullPointerException())
+        logTarget.log(EkhoLevel.ERROR, tag, message, NullPointerException())
 
         val logs = ShadowLog.getLogs()
         val logItem = logs.firstOrNull { it.tag == tag }

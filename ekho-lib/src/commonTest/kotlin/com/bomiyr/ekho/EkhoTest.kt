@@ -139,7 +139,7 @@ class EkhoTest {
             }
         }
         val ekho = Ekho(reflectionsHolder)
-        ekho.log(Ekho.ASSERT, "tag1", Throwable(), null) {
+        ekho.log(EkhoLevel.ASSERT, "tag1", Throwable(), null) {
             "message1"
         }
         assertTrue(foreachCalled, "Foreach not called on reflectionsHolder")
@@ -164,7 +164,7 @@ class EkhoTest {
             }
         }
         val ekho = Ekho(reflectionsHolder)
-        ekho.log(Ekho.ASSERT, "tag1", Throwable(), null) {
+        ekho.log(EkhoLevel.ASSERT, "tag1", Throwable(), null) {
             "message1"
         }
         assertTrue(isLoggableCalled, "Is loggable not called on reflection")
@@ -192,7 +192,7 @@ class EkhoTest {
             }
         }
         val ekho = Ekho(reflectionsHolder)
-        ekho.log(Ekho.ASSERT, "tag1", Throwable(), null) {
+        ekho.log(EkhoLevel.ASSERT, "tag1", Throwable(), null) {
             "message1"
         }
         assertFalse(logCalled, "Log is called on reflection when should not")
@@ -220,7 +220,7 @@ class EkhoTest {
             }
         }
         val ekho = Ekho(reflectionsHolder)
-        ekho.log(Ekho.ASSERT, "tag1", Throwable(), null) {
+        ekho.log(EkhoLevel.ASSERT, "tag1", Throwable(), null) {
             "message1"
         }
         assertTrue(logCalled, "Log not called on reflection when it should")
@@ -230,7 +230,7 @@ class EkhoTest {
     @Test
     fun logCorrectData() {
 
-        var testPriority = Ekho.ASSERT
+        var testPriority = EkhoLevel.ASSERT
         var testTag = "tag1"
         var testMessage = "message1"
         var testThrowable = Throwable()
@@ -245,7 +245,7 @@ class EkhoTest {
             it.log(testPriority, testTag, testThrowable, testMessage, null)
         }
 
-        testPriority = Ekho.WARN
+        testPriority = EkhoLevel.WARN
         testTag = "tag2"
         testMessage = "message2"
         testThrowable = Throwable()
@@ -295,7 +295,7 @@ class EkhoTest {
     @Test
     fun vError() {
         val error = Throwable()
-        checkLoggedDataCorrect(Ekho.VERBOSE, null, null, error) {
+        checkLoggedDataCorrect(EkhoLevel.VERBOSE, null, null, error) {
             it.v(error)
         }
     }
@@ -303,7 +303,7 @@ class EkhoTest {
     @Test
     fun vMessage() {
         val message = "some message"
-        checkLoggedDataCorrect(Ekho.VERBOSE, null, message, null) {
+        checkLoggedDataCorrect(EkhoLevel.VERBOSE, null, message, null) {
             it.v(message)
         }
     }
@@ -311,7 +311,7 @@ class EkhoTest {
     @Test
     fun vLazyMessage() {
         val message = "some message"
-        checkLoggedDataCorrect(Ekho.VERBOSE, null, message, null) {
+        checkLoggedDataCorrect(EkhoLevel.VERBOSE, null, message, null) {
             it.v { message }
         }
     }
@@ -320,7 +320,7 @@ class EkhoTest {
     fun vErrorAndMessage() {
         val error = Throwable()
         val message = "some message"
-        checkLoggedDataCorrect(Ekho.VERBOSE, null, message, error) {
+        checkLoggedDataCorrect(EkhoLevel.VERBOSE, null, message, error) {
             it.v(error, message)
         }
     }
@@ -329,7 +329,7 @@ class EkhoTest {
     fun vErrorAndLazyMessage() {
         val error = Throwable()
         val message = "some message"
-        checkLoggedDataCorrect(Ekho.VERBOSE, null, message, error) {
+        checkLoggedDataCorrect(EkhoLevel.VERBOSE, null, message, error) {
             it.v(error) { message }
         }
     }
@@ -337,7 +337,7 @@ class EkhoTest {
     @Test
     fun dError() {
         val error = Throwable()
-        checkLoggedDataCorrect(Ekho.DEBUG, null, null, error) {
+        checkLoggedDataCorrect(EkhoLevel.DEBUG, null, null, error) {
             it.d(error)
         }
     }
@@ -345,7 +345,7 @@ class EkhoTest {
     @Test
     fun dMessage() {
         val message = "some message"
-        checkLoggedDataCorrect(Ekho.DEBUG, null, message, null) {
+        checkLoggedDataCorrect(EkhoLevel.DEBUG, null, message, null) {
             it.d(message)
         }
     }
@@ -353,7 +353,7 @@ class EkhoTest {
     @Test
     fun dLazyMessage() {
         val message = "some message"
-        checkLoggedDataCorrect(Ekho.DEBUG, null, message, null) {
+        checkLoggedDataCorrect(EkhoLevel.DEBUG, null, message, null) {
             it.d { message }
         }
     }
@@ -362,7 +362,7 @@ class EkhoTest {
     fun dErrorAndMessage() {
         val error = Throwable()
         val message = "some message"
-        checkLoggedDataCorrect(Ekho.DEBUG, null, message, error) {
+        checkLoggedDataCorrect(EkhoLevel.DEBUG, null, message, error) {
             it.d(error, message)
         }
     }
@@ -371,7 +371,7 @@ class EkhoTest {
     fun dErrorAndLazyMessage() {
         val error = Throwable()
         val message = "some message"
-        checkLoggedDataCorrect(Ekho.DEBUG, null, message, error) {
+        checkLoggedDataCorrect(EkhoLevel.DEBUG, null, message, error) {
             it.d(error) { message }
         }
     }
@@ -379,7 +379,7 @@ class EkhoTest {
     @Test
     fun iError() {
         val error = Throwable()
-        checkLoggedDataCorrect(Ekho.INFO, null, null, error) {
+        checkLoggedDataCorrect(EkhoLevel.INFO, null, null, error) {
             it.i(error)
         }
     }
@@ -387,7 +387,7 @@ class EkhoTest {
     @Test
     fun iMessage() {
         val message = "some message"
-        checkLoggedDataCorrect(Ekho.INFO, null, message, null) {
+        checkLoggedDataCorrect(EkhoLevel.INFO, null, message, null) {
             it.i(message)
         }
     }
@@ -395,7 +395,7 @@ class EkhoTest {
     @Test
     fun iLazyMessage() {
         val message = "some message"
-        checkLoggedDataCorrect(Ekho.INFO, null, message, null) {
+        checkLoggedDataCorrect(EkhoLevel.INFO, null, message, null) {
             it.i { message }
         }
     }
@@ -404,7 +404,7 @@ class EkhoTest {
     fun iErrorAndMessage() {
         val error = Throwable()
         val message = "some message"
-        checkLoggedDataCorrect(Ekho.INFO, null, message, error) {
+        checkLoggedDataCorrect(EkhoLevel.INFO, null, message, error) {
             it.i(error, message)
         }
     }
@@ -413,7 +413,7 @@ class EkhoTest {
     fun iErrorAndLazyMessage() {
         val error = Throwable()
         val message = "some message"
-        checkLoggedDataCorrect(Ekho.INFO, null, message, error) {
+        checkLoggedDataCorrect(EkhoLevel.INFO, null, message, error) {
             it.i(error) { message }
         }
     }
@@ -421,7 +421,7 @@ class EkhoTest {
     @Test
     fun wError() {
         val error = Throwable()
-        checkLoggedDataCorrect(Ekho.WARN, null, null, error) {
+        checkLoggedDataCorrect(EkhoLevel.WARN, null, null, error) {
             it.w(error)
         }
     }
@@ -429,7 +429,7 @@ class EkhoTest {
     @Test
     fun wMessage() {
         val message = "some message"
-        checkLoggedDataCorrect(Ekho.WARN, null, message, null) {
+        checkLoggedDataCorrect(EkhoLevel.WARN, null, message, null) {
             it.w(message)
         }
     }
@@ -437,7 +437,7 @@ class EkhoTest {
     @Test
     fun wLazyMessage() {
         val message = "some message"
-        checkLoggedDataCorrect(Ekho.WARN, null, message, null) {
+        checkLoggedDataCorrect(EkhoLevel.WARN, null, message, null) {
             it.w { message }
         }
     }
@@ -446,7 +446,7 @@ class EkhoTest {
     fun wErrorAndMessage() {
         val error = Throwable()
         val message = "some message"
-        checkLoggedDataCorrect(Ekho.WARN, null, message, error) {
+        checkLoggedDataCorrect(EkhoLevel.WARN, null, message, error) {
             it.w(error, message)
         }
     }
@@ -455,7 +455,7 @@ class EkhoTest {
     fun wErrorAndLazyMessage() {
         val error = Throwable()
         val message = "some message"
-        checkLoggedDataCorrect(Ekho.WARN, null, message, error) {
+        checkLoggedDataCorrect(EkhoLevel.WARN, null, message, error) {
             it.w(error) { message }
         }
     }
@@ -463,7 +463,7 @@ class EkhoTest {
     @Test
     fun eError() {
         val error = Throwable()
-        checkLoggedDataCorrect(Ekho.ERROR, null, null, error) {
+        checkLoggedDataCorrect(EkhoLevel.ERROR, null, null, error) {
             it.e(error)
         }
     }
@@ -471,7 +471,7 @@ class EkhoTest {
     @Test
     fun eMessage() {
         val message = "some message"
-        checkLoggedDataCorrect(Ekho.ERROR, null, message, null) {
+        checkLoggedDataCorrect(EkhoLevel.ERROR, null, message, null) {
             it.e(message)
         }
     }
@@ -479,7 +479,7 @@ class EkhoTest {
     @Test
     fun eLazyMessage() {
         val message = "some message"
-        checkLoggedDataCorrect(Ekho.ERROR, null, message, null) {
+        checkLoggedDataCorrect(EkhoLevel.ERROR, null, message, null) {
             it.e { message }
         }
     }
@@ -488,7 +488,7 @@ class EkhoTest {
     fun eErrorAndMessage() {
         val error = Throwable()
         val message = "some message"
-        checkLoggedDataCorrect(Ekho.ERROR, null, message, error) {
+        checkLoggedDataCorrect(EkhoLevel.ERROR, null, message, error) {
             it.e(error, message)
         }
     }
@@ -497,7 +497,7 @@ class EkhoTest {
     fun eErrorAndLazyMessage() {
         val error = Throwable()
         val message = "some message"
-        checkLoggedDataCorrect(Ekho.ERROR, null, message, error) {
+        checkLoggedDataCorrect(EkhoLevel.ERROR, null, message, error) {
             it.e(error) { message }
         }
     }
@@ -505,7 +505,7 @@ class EkhoTest {
     @Test
     fun wtfError() {
         val error = Throwable()
-        checkLoggedDataCorrect(Ekho.ASSERT, null, null, error) {
+        checkLoggedDataCorrect(EkhoLevel.ASSERT, null, null, error) {
             it.wtf(error)
         }
     }
@@ -513,7 +513,7 @@ class EkhoTest {
     @Test
     fun wtfMessage() {
         val message = "some message"
-        checkLoggedDataCorrect(Ekho.ASSERT, null, message, null) {
+        checkLoggedDataCorrect(EkhoLevel.ASSERT, null, message, null) {
             it.wtf(message)
         }
     }
@@ -521,7 +521,7 @@ class EkhoTest {
     @Test
     fun wtfLazyMessage() {
         val message = "some message"
-        checkLoggedDataCorrect(Ekho.ASSERT, null, message, null) {
+        checkLoggedDataCorrect(EkhoLevel.ASSERT, null, message, null) {
             it.wtf { message }
         }
     }
@@ -530,7 +530,7 @@ class EkhoTest {
     fun wtfErrorAndMessage() {
         val error = Throwable()
         val message = "some message"
-        checkLoggedDataCorrect(Ekho.ASSERT, null, message, error) {
+        checkLoggedDataCorrect(EkhoLevel.ASSERT, null, message, error) {
             it.wtf(error, message)
         }
     }
@@ -539,7 +539,7 @@ class EkhoTest {
     fun wtfErrorAndLazyMessage() {
         val error = Throwable()
         val message = "some message"
-        checkLoggedDataCorrect(Ekho.ASSERT, null, message, error) {
+        checkLoggedDataCorrect(EkhoLevel.ASSERT, null, message, error) {
             it.wtf(error) { message }
         }
     }
