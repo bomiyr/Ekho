@@ -2,7 +2,8 @@ package com.bomiyr.ekho
 
 import android.os.Build
 import android.util.Log
-import com.bomiyr.ekho.jvmmessage.JvmMessagePrepare
+import java.io.PrintWriter
+import java.io.StringWriter
 
 public class AndroidLogReflection(
     override var filter: EkhoFilter = LogAll,
@@ -22,7 +23,7 @@ public class AndroidLogReflection(
     )
 
     override fun log(level: EkhoLevel, tag: String?, message: String?, t: Throwable?) {
-        JvmMessagePrepare.prepareMessage(message, t)
+        prepareMessage(message, t)
             ?.let { resultMessage ->
                 val resultTag = prepareTag(tag)
                 logFullMessage(level, resultTag, resultMessage)
@@ -37,7 +38,7 @@ public class AndroidLogReflection(
                 tag.substring(0, MAX_TAG_LENGTH)
             }
         } else if (useDebugTags) {
-            prepareTag(JvmMessagePrepare.getTagFromStackTrace(skipClassesForDebugTag))
+            prepareTag(getTagFromStackTrace(skipClassesForDebugTag))
         } else {
             DEFAULT_TAG
         }
@@ -73,6 +74,41 @@ public class AndroidLogReflection(
         }
     }
 
+    private fun prepareMessage(message: String?, error: Throwable?): String? {
+        return if (message != null) {
+            if (error != null) {
+                "$message\n${getStackTraceString(error)}"
+            } else {
+                message
+            }
+        } else {
+            if (error != null) {
+                getStackTraceString(error)
+            } else {
+                null
+            }
+        }
+    }
+
+    private fun getTagFromStackTrace(skipClassNames: List<String>): String? {
+
+        val stackTrace = Throwable().stackTrace
+        for (element in stackTrace) {
+            val mainClass = element.className.substringBefore("$")
+            if (!skipClassNames.contains(mainClass)) {
+                return mainClass.substringAfterLast(".")
+            }
+        }
+        return null
+    }
+
+    private fun getStackTraceString(tr: Throwable): String {
+        val sw = StringWriter()
+        val pw = PrintWriter(sw)
+        tr.printStackTrace(pw)
+        pw.flush()
+        return sw.toString()
+    }
 
     public companion object {
         public const val DEFAULT_TAG: String = "Ekho"

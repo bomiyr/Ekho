@@ -27,11 +27,8 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
             }
         }
-        val androidMain by getting {
-            dependencies {
-                implementation(project(mapOf("path" to ":jvmmessage")))
-            }
-        }
+
+        val androidMain by getting
         val androidTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
@@ -39,11 +36,8 @@ kotlin {
                 implementation("org.robolectric:robolectric:4.4")
             }
         }
-        val jvmMain by getting {
-            dependencies {
-                implementation(project(mapOf("path" to ":jvmmessage")))
-            }
-        }
+
+        val jvmMain by getting
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))

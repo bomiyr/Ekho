@@ -1,6 +1,7 @@
 package com.bomiyr.ekho
 
-import com.bomiyr.ekho.jvmmessage.JvmMessagePrepare
+import java.io.PrintWriter
+import java.io.StringWriter
 
 public open class SystemOutReflection(
     override var filter: EkhoFilter,
@@ -20,7 +21,7 @@ public open class SystemOutReflection(
     )
 
     override fun log(level: EkhoLevel, tag: String?, message: String?, t: Throwable?) {
-        JvmMessagePrepare.prepareMessage(message, t)
+        prepareMessage(message, t)
             ?.let { resultMessage ->
                 val resultTag = prepareTag(tag)
                 println("${level.printed}/$resultTag: $resultMessage")
@@ -29,10 +30,46 @@ public open class SystemOutReflection(
 
     private fun prepareTag(tag: String?): String? =
         tag ?: if (useDebugTags) {
-            JvmMessagePrepare.getTagFromStackTrace(skipClassesForDebugTag)
+            getTagFromStackTrace(skipClassesForDebugTag)
         } else {
             DEFAULT_TAG
         }
+
+    private fun prepareMessage(message: String?, error: Throwable?): String? {
+        return if (message != null) {
+            if (error != null) {
+                "$message\n${getStackTraceString(error)}"
+            } else {
+                message
+            }
+        } else {
+            if (error != null) {
+                getStackTraceString(error)
+            } else {
+                null
+            }
+        }
+    }
+
+    private fun getTagFromStackTrace(skipClassNames: List<String>): String? {
+
+        val stackTrace = Throwable().stackTrace
+        for (element in stackTrace) {
+            val mainClass = element.className.substringBefore("$")
+            if (!skipClassNames.contains(mainClass)) {
+                return mainClass.substringAfterLast(".")
+            }
+        }
+        return null
+    }
+
+    private fun getStackTraceString(tr: Throwable): String {
+        val sw = StringWriter()
+        val pw = PrintWriter(sw)
+        tr.printStackTrace(pw)
+        pw.flush()
+        return sw.toString()
+    }
 
     public companion object {
         public const val DEFAULT_TAG: String = "Ekho"
