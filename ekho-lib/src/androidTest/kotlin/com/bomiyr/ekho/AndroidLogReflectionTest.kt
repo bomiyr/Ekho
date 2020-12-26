@@ -108,7 +108,7 @@ internal class AndroidLogReflectionTest {
         val logs = ShadowLog.getLogs()
         val value = logs.firstOrNull { it.msg == message }
 
-        assertEquals(tag, value?.tag, "Tag is not the same")
+        assertEquals(tag + "123", value?.tag, "Tag is not the same")
     }
 
     @Config(sdk = [Build.VERSION_CODES.M])
