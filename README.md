@@ -1,6 +1,8 @@
 # Ekho
 Simple [almost]multiplatform Kotlin logging library. 
 
+![Automated tests](https://github.com/bomiyr/ekho/workflows/Automated%20tests/badge.svg?event=push)
+
 # Available targets:
 - [x] Android
 - [x] Jvm
