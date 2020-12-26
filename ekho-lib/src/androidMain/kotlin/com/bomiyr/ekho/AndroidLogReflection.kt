@@ -42,8 +42,6 @@ public class AndroidLogReflection(
             DEFAULT_TAG
         }
 
-
-
     private fun logFullMessage(
         level: EkhoLevel,
         tag: String,
